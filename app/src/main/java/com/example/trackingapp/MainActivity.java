@@ -1,0 +1,139 @@
+package com.example.trackingapp;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Switch;
+import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+
+
+public class MainActivity extends AppCompatActivity
+{
+    Button scanBtn;
+    ArrayList<Object> arr = new ArrayList<>();
+    ListView listView;
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        listView = findViewById(R.id.listUebersicht);
+
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications).build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
+
+
+        scanBtn = findViewById(R.id.scanBtn);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id)
+        {
+            case R.id.navigation_ausloggen:
+            Intent in = new Intent(this, LoginFensterActivity.class);
+            startActivity(in);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.top_nav_logout,menu);
+        return true;
+    }
+
+
+
+    public void scanBtnClicked (View view)
+    {
+        scanCode();
+    }
+
+    private void scanCode()
+    {
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setCaptureActivity(CaptureAct.class);
+        integrator.setOrientationLocked(false);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+        integrator.setPrompt("Scanning Code");
+        integrator.initiateScan();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data )
+    {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null)
+        {
+            if (result.getContents() != null)
+            {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                builder.setMessage(result.getContents());
+//                builder.setTitle("Scanning Result");
+//                builder.setPositiveButton("Scan Again", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        scanCode();
+//                    }
+//                });
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
+
+                String[] res = result.getContents().split(";");
+                Object object = new Object(res[0], res[1]);
+                arr.add(object);
+                bindAdapter(listView);
+            }
+            else
+            {
+                Toast.makeText(this, "no Result", Toast.LENGTH_SHORT).show();
+            }
+        }else
+        {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+
+
+
+    }
+
+    public void bindAdapter(ListView lv)
+    {
+        ArrayAdapter<Object> itemsAdapter = new ArrayAdapter<Object>(this, android.R.layout.simple_list_item_1, arr);
+        lv.setAdapter(itemsAdapter);
+    }
+}

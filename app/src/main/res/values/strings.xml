@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">TrackingApp</string>
+    <string name="title_home">Übersicht</string>
+    <string name="title_dashboard">Kamera</string>
+    <string name="title_notifications">Wartung</string>
+    <string name="scanBtn">Scan Now</string>
+    <string name="uebersicht">Übersicht</string>
+    <string name="wartung">Wartung</string>
+    <string name="speichern">Speichern</string>
+
+    //Strings for Edittext
+    <string name = "hint_username">Benutzername</string>
+    <string name = "hint_password">Passwort</string>
+    <string name = "hint_mail">E-Mail Adresse</string>
+    <string name = "hint_passwordbestätigung">Passwort bestätigen</string>
+
+
+    //Strings for Buttons
+    <string name = "button_login">Einloggen</string>
+    <string name = "buttonloginregister">Noch keinen Account? Hier registrieren</string>
+    <string name = "button_register">Registrieren</string>
+    <string name = "button_registration_to_login">Hier geht´s zum Log In</string>
+
+</resources>
