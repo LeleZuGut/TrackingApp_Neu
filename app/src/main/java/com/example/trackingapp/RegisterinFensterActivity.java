@@ -21,7 +21,7 @@ public class RegisterinFensterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mydatabase = openOrCreateDatabase("LogInDatabase",MODE_PRIVATE, null);
+        mydatabase = openOrCreateDatabase("TrackingDatabase",MODE_PRIVATE, null);
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Users(ID Integer,Username VARCHAR, Password VARCHAR, Email VARCHAR);");
 
 
