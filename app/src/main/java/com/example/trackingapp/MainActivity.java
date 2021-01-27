@@ -15,6 +15,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.trackingapp.listmodel.DevicesListAdapter;
+import com.example.trackingapp.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -47,23 +48,21 @@ public class MainActivity extends AppCompatActivity {
         //Datenbank für Geräte
         mydatabase = openOrCreateDatabase("TrackingDatabase", MODE_PRIVATE, null);
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Devices(ID Integer,Name VARCHAR, InventoryNumber VARCHAR, Status VARCHAR);");
+        mydatabase.execSQL("DELETE FROM Devices;");
         mydatabase.execSQL("Insert into Devices Values(" + 111111 + ",'" + "Bosch Schlagbohrmaschine GSB 20-2" + "','" + "M432K32" + "','" + "frei" + "');");
         mydatabase.execSQL("Insert into Devices Values(" + 111112 + ",'" + "Bosch Professional Schlagbohrmaschine GSB 13 RE" + "','" + "M432K33" + "','" + "frei" + "');");
         mydatabase.execSQL("Insert into Devices Values(" + 111112 + ",'" + "Bosch Professional Schlagbohrmaschine GSB 14 RE" + "','" + "M432K34" + "','" + "frei" + "');");
 
 
-
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        final BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
-        listView = findViewById(R.id.listUebersicht);
         scanBtn = findViewById(R.id.scanBtn);
-
         loadList();
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -76,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -142,7 +142,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void bindAdapterToList() {
-       myadapter = new DevicesListAdapter(this, R.layout.list_view_devices, arr);
-       listView.setAdapter(myadapter);
+        myadapter = new DevicesListAdapter(this, R.layout.list_view_devices, arr);
+        HomeFragment hf = new HomeFragment();
+        hf.setListAdapter(myadapter);
     }
 }

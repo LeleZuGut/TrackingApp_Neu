@@ -22,7 +22,7 @@ public class LoginFensterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_fenster);
         e1 = findViewById(R.id.editText_Register_username);
         e2 = findViewById(R.id.editText_Register_Password);
-         mydatabase = openOrCreateDatabase("TrackingDatabase",MODE_PRIVATE, null);
+        mydatabase = openOrCreateDatabase("TrackingDatabase",MODE_PRIVATE, null);
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Users(ID Integer,Username VARCHAR, Password VARCHAR, Email VARCHAR);");
 
 
