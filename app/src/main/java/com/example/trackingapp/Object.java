@@ -61,6 +61,6 @@ public class Object
 
     @Override
     public String toString() {
-        return id + "->" + name;
+        return name;
     }
 }

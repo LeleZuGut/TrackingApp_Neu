@@ -8,14 +8,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.trackingapp.listmodel.DevicesListAdapter;
+import com.example.trackingapp.ui.dashboard.DashboardFragment;
 import com.example.trackingapp.ui.home.HomeFragment;
+import com.example.trackingapp.ui.notifications.NotificationsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -23,6 +23,7 @@ import com.google.zxing.integration.android.IntentResult;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -32,12 +33,10 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     Button scanBtn;
-    ArrayList<Object> arr = new ArrayList<>();
-    ListView listView;
     SQLiteDatabase mydatabase;
-    DevicesListAdapter myadapter;
+
 
 
     @Override
@@ -51,16 +50,19 @@ public class MainActivity extends AppCompatActivity {
         mydatabase.execSQL("DELETE FROM Devices;");
         mydatabase.execSQL("Insert into Devices Values(" + 111111 + ",'" + "Bosch Schlagbohrmaschine GSB 20-2" + "','" + "M432K32" + "','" + "frei" + "');");
         mydatabase.execSQL("Insert into Devices Values(" + 111112 + ",'" + "Bosch Professional Schlagbohrmaschine GSB 13 RE" + "','" + "M432K33" + "','" + "frei" + "');");
-        mydatabase.execSQL("Insert into Devices Values(" + 111112 + ",'" + "Bosch Professional Schlagbohrmaschine GSB 14 RE" + "','" + "M432K34" + "','" + "frei" + "');");
+        mydatabase.execSQL("Insert into Devices Values(" + 111113 + ",'" + "Bosch Professional Schlagbohrmaschine GSB 14 RE" + "','" + "M432K34" + "','" + "frei" + "');");
+        mydatabase.execSQL("Insert into Devices Values(" + 111114 + ",'" + "Makita Bohrhammer für SDS-PLUS 24 mm HR2470" + "','" + "M432K34" + "','" + "besetzt" + "');");
+        mydatabase.execSQL("Insert into Devices Values(" + 111115 + ",'" + "Makita Bohrhammer HR2478" + "','" + "M432K34" + "','" + "reparatur" + "');");
+
+        //Navigationbar bereitstellen
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
+        navView.setSelectedItemId(R.id.navigation_dashboard);
+        navView.setOnNavigationItemSelectedListener(this);
 
 
-        final BottomNavigationView navView = findViewById(R.id.nav_view);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications).build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
         scanBtn = findViewById(R.id.scanBtn);
-        loadList();
+
     }
 
 
@@ -127,23 +129,39 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void loadList() {
-        Cursor resultset = mydatabase.rawQuery("Select * from Devices", null);
-        while (resultset.moveToNext()) {
-            Object o = new Object();
-            o.setId(resultset.getInt(0));
-            o.setName(resultset.getString(1));
-            o.setInventoryNumber(resultset.getString(2));
-            o.setStatus((resultset.getString(3)));
-            arr.add(o);
+
+    private boolean loadFragment(Fragment fragment) {
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
+            return true;
         }
-        //bindAdapterToList();
-        Toast.makeText(this, "Alles wurde geladen", Toast.LENGTH_SHORT).show();
+        return false;
     }
 
-    public void bindAdapterToList() {
-        myadapter = new DevicesListAdapter(this, R.layout.list_view_devices, arr);
-        HomeFragment hf = new HomeFragment();
-        hf.setListAdapter(myadapter);
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        Fragment fragment = null;
+
+        switch (menuItem.getItemId()) {
+            case R.id.navigation_home:
+                fragment = new HomeFragment();
+                //ViewGroup vg = ((ViewGroup)fragment.getView().getParent()).getId();
+                //+
+                // View root = fragment.getLayoutInflater().inflate(R.layout.fragment_home, , false);
+                break;
+
+            case R.id.navigation_dashboard:
+                fragment = new DashboardFragment();
+                break;
+
+            case R.id.navigation_notifications:
+                fragment = new NotificationsFragment();
+                break;
+        }
+
+        return loadFragment(fragment);
     }
 }

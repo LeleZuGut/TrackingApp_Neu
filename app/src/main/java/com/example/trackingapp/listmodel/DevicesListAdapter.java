@@ -1,12 +1,15 @@
 package com.example.trackingapp.listmodel;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.DrawableRes;
 
 import com.example.trackingapp.Object;
 import com.example.trackingapp.R;
@@ -46,6 +49,18 @@ public class DevicesListAdapter extends BaseAdapter {
         View lstItem = (convertView == null) ? inflater.inflate(this.layoutId, null) : convertView;
         ((TextView) lstItem.findViewById(R.id.text_view_device_listView)).setText(o.toString());
         ImageView status= (ImageView) lstItem.findViewById(R.id.image_view_status_listView);
+
+        switch (o.getStatus()){
+            case "frei":
+                status.setImageResource(R.drawable.circle_green);
+                break;
+            case "besetzt":
+                status.setImageResource(R.drawable.circle_red);
+                break;
+            case "reparatur":
+                status.setImageResource(R.drawable.circle_orange);
+                break;
+        }
         status.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -62,6 +77,6 @@ public class DevicesListAdapter extends BaseAdapter {
         });
 
 
-        return null;
+        return lstItem;
     }
 }
