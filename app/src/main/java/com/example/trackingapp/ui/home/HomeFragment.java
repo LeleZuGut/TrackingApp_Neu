@@ -42,7 +42,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
         mydatabase = getActivity().openOrCreateDatabase("TrackingDatabase", android.content.Context.MODE_PRIVATE, null);
        loadList(list);
 

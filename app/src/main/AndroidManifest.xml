@@ -14,10 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".RegisterinFensterActivity"></activity>
-
+        <activity android:name=".ui.activities.show_device"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".RegisterinFensterActivity" />
         <activity
             android:name=".LoginFensterActivity"
             android:label="@string/app_name">
@@ -31,7 +30,7 @@
             android:name=".CaptureAct"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>
