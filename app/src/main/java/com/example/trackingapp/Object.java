@@ -1,20 +1,25 @@
 package com.example.trackingapp;
 
-public class Object
+import java.io.Serializable;
+
+public class Object implements Serializable
 {
     int id;
     String name;
-    String InventoryNumber;
+    String inventoryNumber;
     String status;
     String userChanged;
+    String repairmessage;
 
     public Object(int id, String name, String inventoryNumber, String status) {
         this.id = id;
         this.name = name;
-        InventoryNumber = inventoryNumber;
+        this.inventoryNumber = inventoryNumber;
         this.status = status;
 
     }
+
+
 
     public Object() {
     }
@@ -36,11 +41,11 @@ public class Object
     }
 
     public String getInventoryNumber() {
-        return InventoryNumber;
+        return inventoryNumber;
     }
 
     public void setInventoryNumber(String inventoryNumber) {
-        InventoryNumber = inventoryNumber;
+        this.inventoryNumber = inventoryNumber;
     }
 
     public String getStatus() {
@@ -57,6 +62,14 @@ public class Object
 
     public void setUserChanged(String userChanged) {
         this.userChanged = userChanged;
+    }
+
+    public String getRepairmessage() {
+        return repairmessage;
+    }
+
+    public void setRepairmessage(String repairmessage) {
+        this.repairmessage = repairmessage;
     }
 
     @Override

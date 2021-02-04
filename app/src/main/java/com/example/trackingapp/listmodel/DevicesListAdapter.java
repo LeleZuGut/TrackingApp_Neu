@@ -84,6 +84,13 @@ public class DevicesListAdapter extends BaseAdapter {
             }
         });
 
+        ImageView borrow = lstItem.findViewById(R.id.image_view_borrow_listView);
+        borrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         return lstItem;
     }

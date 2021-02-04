@@ -46,13 +46,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         //Datenbank für Geräte
         mydatabase = openOrCreateDatabase("TrackingDatabase", MODE_PRIVATE, null);
-        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Devices(ID Integer,Name VARCHAR, InventoryNumber VARCHAR, Status VARCHAR);");
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Devices(ID Integer,Name VARCHAR, Inventorynumber VARCHAR, Status VARCHAR);");
         mydatabase.execSQL("DELETE FROM Devices;");
         mydatabase.execSQL("Insert into Devices Values(" + 111111 + ",'" + "Bosch Schlagbohrmaschine GSB 20-2" + "','" + "M432K32" + "','" + "frei" + "');");
         mydatabase.execSQL("Insert into Devices Values(" + 111112 + ",'" + "Bosch Professional Schlagbohrmaschine GSB 13 RE" + "','" + "M432K33" + "','" + "frei" + "');");
         mydatabase.execSQL("Insert into Devices Values(" + 111113 + ",'" + "Bosch Professional Schlagbohrmaschine GSB 14 RE" + "','" + "M432K34" + "','" + "frei" + "');");
         mydatabase.execSQL("Insert into Devices Values(" + 111114 + ",'" + "Makita Bohrhammer für SDS-PLUS 24 mm HR2470" + "','" + "M432K34" + "','" + "besetzt" + "');");
         mydatabase.execSQL("Insert into Devices Values(" + 111115 + ",'" + "Makita Bohrhammer HR2478" + "','" + "M432K34" + "','" + "reparatur" + "');");
+        mydatabase.execSQL("INSERT INTO Devices VALUES (111116, 'Testobjekt', 'M84HFJI', 'besetzt');");
 
         //Navigationbar bereitstellen
         BottomNavigationView navView = findViewById(R.id.nav_view);

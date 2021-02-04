@@ -1,11 +1,13 @@
 package com.example.trackingapp.ui.notifications;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,12 +21,15 @@ import com.example.trackingapp.Object;
 import com.example.trackingapp.R;
 import com.example.trackingapp.listmodel.DevicesListAdapter;
 import com.example.trackingapp.listmodel.RepairListAdapter;
+import com.example.trackingapp.ui.activities.show_device;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class NotificationsFragment extends Fragment {
 
     SQLiteDatabase mydatabase;
+    ListView list;
 
     private NotificationsViewModel notificationsViewModel;
 
@@ -39,9 +44,17 @@ public class NotificationsFragment extends Fragment {
 
             }
         });
-        ListView lv = root.findViewById(R.id.listReparatur);
         mydatabase = getActivity().openOrCreateDatabase("TrackingDatabase", android.content.Context.MODE_PRIVATE, null);
-        loadList(lv);
+        list = root.findViewById(R.id.listReparatur);
+        loadList(list);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), show_device.class);
+                intent.putExtra("object", (Serializable) list.getAdapter().getItem(position));
+                startActivity(intent);
+            }
+        });
         return root;
     }
 
