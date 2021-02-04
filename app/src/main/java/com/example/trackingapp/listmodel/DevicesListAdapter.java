@@ -1,5 +1,6 @@
 package com.example.trackingapp.listmodel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.annotation.DrawableRes;
 import com.example.trackingapp.MainActivity;
 import com.example.trackingapp.Object;
 import com.example.trackingapp.R;
+import com.example.trackingapp.database.MyDatabaseManager;
 import com.example.trackingapp.ui.home.HomeFragment;
 
 import java.util.ArrayList;
@@ -25,12 +27,14 @@ public class DevicesListAdapter extends BaseAdapter {
     private int layoutId;
     private LayoutInflater inflater;
     Context ctx;
+    MyDatabaseManager mdm;
 
     public DevicesListAdapter(Context ctx, int layoutId, List<Object> objects) {
         this.objects = objects;
         this.layoutId = layoutId;
         this.inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.ctx = ctx;
+        mdm = new MyDatabaseManager((Activity)ctx);
     }
 
     @Override
@@ -50,23 +54,32 @@ public class DevicesListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, final View convertView, ViewGroup parent) {
-        Object o = objects.get(position);
+        final Object o = objects.get(position);
         View lstItem = (convertView == null) ? inflater.inflate(this.layoutId, null) : convertView;
         ((TextView) lstItem.findViewById(R.id.text_view_device_listView)).setText(o.toString());
         final ImageView status= (ImageView) lstItem.findViewById(R.id.image_view_status_listView);
+        ImageView fixing = (ImageView) lstItem.findViewById(R.id.image_view_fix_listView);
+        ImageView borrow = (ImageView) lstItem.findViewById(R.id.image_view_borrow_listView);
 
         switch (o.getStatus()){
             case "frei":
                 status.setImageResource(R.drawable.circle_green);
                 status.setContentDescription("Verfügbar");
+                borrow.setVisibility(borrow.VISIBLE);
+                fixing.setVisibility(borrow.VISIBLE);
                 break;
             case "besetzt":
                 status.setImageResource(R.drawable.circle_red);
                 status.setContentDescription("Besetzt");
+                borrow.setVisibility(borrow.INVISIBLE);
+                fixing.setVisibility(borrow.INVISIBLE);
+
                 break;
             case "reparatur":
                 status.setImageResource(R.drawable.circle_orange);
                 status.setContentDescription("Defekt");
+                borrow.setVisibility(borrow.INVISIBLE);
+                fixing.setVisibility(borrow.INVISIBLE);
                 break;
         }
         status.setOnClickListener(new View.OnClickListener(){
@@ -76,19 +89,22 @@ public class DevicesListAdapter extends BaseAdapter {
             }
         });
 
-        ImageView fixing = (ImageView) lstItem.findViewById(R.id.image_view_fix_listView);
+
         fixing.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                mdm.updateStatus(o.getId(), "'reparatur'");
+                Toast.makeText(ctx, "Geräte wurde auf Status Reparatur gesetzt.", Toast.LENGTH_SHORT).show();
 
             }
         });
 
-        ImageView borrow = lstItem.findViewById(R.id.image_view_borrow_listView);
+
         borrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mdm.updateStatus(o.getId(), "'besetzt'");
+                Toast.makeText(ctx, "Geräte wurde auf Status Ausgliehen gesetzt.", Toast.LENGTH_SHORT).show();
             }
         });
 

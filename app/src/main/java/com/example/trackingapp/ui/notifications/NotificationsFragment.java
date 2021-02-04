@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.trackingapp.Object;
 import com.example.trackingapp.R;
+import com.example.trackingapp.database.MyDatabaseManager;
 import com.example.trackingapp.listmodel.DevicesListAdapter;
 import com.example.trackingapp.listmodel.RepairListAdapter;
 import com.example.trackingapp.ui.activities.show_device;
@@ -28,7 +29,8 @@ import java.util.ArrayList;
 
 public class NotificationsFragment extends Fragment {
 
-    SQLiteDatabase mydatabase;
+    //SQLiteDatabase mydatabase;
+    MyDatabaseManager mdm;
     ListView list;
 
     private NotificationsViewModel notificationsViewModel;
@@ -44,7 +46,8 @@ public class NotificationsFragment extends Fragment {
 
             }
         });
-        mydatabase = getActivity().openOrCreateDatabase("TrackingDatabase", android.content.Context.MODE_PRIVATE, null);
+       // mydatabase = getActivity().openOrCreateDatabase("TrackingDatabase", android.content.Context.MODE_PRIVATE, null);
+        mdm = new MyDatabaseManager(getActivity());
         list = root.findViewById(R.id.listReparatur);
         loadList(list);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -60,7 +63,8 @@ public class NotificationsFragment extends Fragment {
 
     public void loadList(ListView lv) {
         ArrayList<Object> arr = new ArrayList();
-        Cursor resultset = mydatabase.rawQuery("Select * from Devices where status = 'reparatur'", null);
+        //Cursor resultset = mydatabase.rawQuery("Select * from Devices where status = 'reparatur'", null);
+        Cursor resultset = mdm.selectPart("status = 'reparatur'");
         while (resultset.moveToNext()) {
             Object o = new Object();
             o.setId(resultset.getInt(0));

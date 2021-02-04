@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.trackingapp.MainActivity;
 import com.example.trackingapp.Object;
 import com.example.trackingapp.R;
+import com.example.trackingapp.database.MyDatabaseManager;
 import com.example.trackingapp.listmodel.DevicesListAdapter;
 import com.example.trackingapp.ui.activities.show_device;
 
@@ -31,13 +32,15 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     ListView list;
-    SQLiteDatabase mydatabase;
+    MyDatabaseManager mdm;
+    private static HomeFragment instance;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        instance = this;
         list = root.findViewById(R.id.listUebersicht);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -54,17 +57,15 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        mydatabase = getActivity().openOrCreateDatabase("TrackingDatabase", android.content.Context.MODE_PRIVATE, null);
-       loadList(list);
+        mdm = new MyDatabaseManager(getActivity());
+        loadList();
 
         return root;
-
-
     }
 
-    public void loadList(ListView lv) {
+    public void loadList() {
         ArrayList<Object> arr = new ArrayList();
-        Cursor resultset = mydatabase.rawQuery("Select * from Devices", null);
+        Cursor resultset = mdm.selectEverythingFromDevices();
         while (resultset.moveToNext()) {
             Object o = new Object();
             o.setId(resultset.getInt(0));
@@ -74,7 +75,10 @@ public class HomeFragment extends Fragment {
             arr.add(o);
         }
         DevicesListAdapter myadapter = new DevicesListAdapter(this.getActivity(), R.layout.list_view_devices, arr);
-        lv.setAdapter(myadapter);
+        list.setAdapter(myadapter);
     }
 
+    public static HomeFragment getInstance() {
+        return instance;
+    }
 }
