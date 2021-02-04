@@ -162,7 +162,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/layout_button"
-            android:text="Zurück" />
+            android:text="Zurück"
+            android:textSize="10sp" />
 
         <Space
             android:layout_width="100dp"
@@ -175,7 +176,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/layout_button"
-            android:text="Speichern" />
+            android:text="Speichern"
+            android:textSize="10sp" />
 
         <Space
             android:layout_width="100dp"

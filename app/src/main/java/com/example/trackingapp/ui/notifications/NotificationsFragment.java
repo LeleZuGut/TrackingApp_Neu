@@ -73,7 +73,7 @@ public class NotificationsFragment extends Fragment {
             o.setStatus((resultset.getString(3)));
             arr.add(o);
         }
-        RepairListAdapter myadapter = new RepairListAdapter(this.getActivity(), R.layout.list_view_repair, arr);
+        RepairListAdapter myadapter = new RepairListAdapter(this.getActivity(), R.layout.list_view_repair_2, arr);
         lv.setAdapter(myadapter);
     }
 }
