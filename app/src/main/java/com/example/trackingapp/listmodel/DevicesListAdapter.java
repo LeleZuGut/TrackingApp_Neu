@@ -56,10 +56,10 @@ public class DevicesListAdapter extends BaseAdapter {
     public View getView(int position, final View convertView, ViewGroup parent) {
         final Object o = objects.get(position);
         View lstItem = (convertView == null) ? inflater.inflate(this.layoutId, null) : convertView;
-        ((TextView) lstItem.findViewById(R.id.text_view_device_listView)).setText(o.toString());
-        final ImageView status= (ImageView) lstItem.findViewById(R.id.image_view_status_listView);
-        ImageView fixing = (ImageView) lstItem.findViewById(R.id.image_view_fix_listView);
-        ImageView borrow = (ImageView) lstItem.findViewById(R.id.image_view_borrow_listView);
+        ((TextView) lstItem.findViewById(R.id.text_view_device_listView2)).setText(o.toString());
+        final ImageView status= (ImageView) lstItem.findViewById(R.id.image_view_status_listView2);
+        ImageView fixing = (ImageView) lstItem.findViewById(R.id.image_view_fix_listView2);
+        ImageView borrow = (ImageView) lstItem.findViewById(R.id.image_view_borrow_listView2);
 
         switch (o.getStatus()){
             case "frei":

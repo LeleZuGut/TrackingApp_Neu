@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
             o.setStatus((resultset.getString(3)));
             arr.add(o);
         }
-        DevicesListAdapter myadapter = new DevicesListAdapter(this.getActivity(), R.layout.list_view_devices, arr);
+        DevicesListAdapter myadapter = new DevicesListAdapter(this.getActivity(), R.layout.list_view_devices_2, arr);
         list.setAdapter(myadapter);
     }
 
