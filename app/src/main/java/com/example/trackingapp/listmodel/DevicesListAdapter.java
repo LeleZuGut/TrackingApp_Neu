@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,13 +23,15 @@ import com.example.trackingapp.ui.home.HomeFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class DevicesListAdapter extends BaseAdapter {
+public class DevicesListAdapter extends BaseAdapter implements Filterable {
     private List<Object> objects = new ArrayList<>();
     private int layoutId;
     private LayoutInflater inflater;
     Context ctx;
     MyDatabaseManager mdm;
+    private List<Object> mOriginalValues;
 
     public DevicesListAdapter(Context ctx, int layoutId, List<Object> objects) {
         this.objects = objects;
@@ -110,4 +114,58 @@ public class DevicesListAdapter extends BaseAdapter {
 
         return lstItem;
     }
+
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+                objects = (ArrayList<Object>) results.values; // has
+
+                notifyDataSetChanged();
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults(); // Holds the
+
+                List<Object> FilteredArrList = new ArrayList<Object>();
+
+                if (mOriginalValues == null) {
+                    mOriginalValues = new ArrayList<Object>(objects); // saves
+
+                }
+
+                if (constraint == null || constraint.length() == 0) {
+
+                    // set the Original result to return
+                    results.count = mOriginalValues.size();
+                    results.values = mOriginalValues;
+                } else {
+                    Locale locale = Locale.getDefault();
+                    constraint = constraint.toString().toLowerCase(locale);
+                    for (int i = 0; i < mOriginalValues.size(); i++) {
+                        Object model = mOriginalValues.get(i);
+
+                        String data = model.getName();
+                        if (data.toLowerCase(locale).contains(constraint.toString())) {
+
+                            FilteredArrList.add(model);
+                        }
+                    }
+                    // set the Filtered result to return
+                    results.count = FilteredArrList.size();
+                    results.values = FilteredArrList;
+
+                }
+                return results;
+            }
+        };
+        return filter;
+    }
+
 }
+

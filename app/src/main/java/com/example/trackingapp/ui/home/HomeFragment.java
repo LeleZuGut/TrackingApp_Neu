@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     ListView list;
+    SearchView search;
     MyDatabaseManager mdm;
     private static HomeFragment instance;
 
@@ -42,6 +44,22 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         instance = this;
         list = root.findViewById(R.id.listUebersicht);
+        search = root.findViewById(R.id.search_view_übersicht);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                DevicesListAdapter tmpadapter = (DevicesListAdapter) list.getAdapter();
+                tmpadapter.getFilter().filter(newText);
+                list.setAdapter(tmpadapter);
+                return true;
+            }
+        });
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -75,8 +93,11 @@ public class HomeFragment extends Fragment {
             arr.add(o);
         }
         DevicesListAdapter myadapter = new DevicesListAdapter(this.getActivity(), R.layout.list_view_devices_2, arr);
+
         list.setAdapter(myadapter);
     }
+
+
 
     public static HomeFragment getInstance() {
         return instance;

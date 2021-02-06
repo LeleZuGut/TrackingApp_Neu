@@ -7,10 +7,17 @@
     android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
+    <SearchView
+        android:id="@+id/search_view_übersicht"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Gerät suchen" />
+
     <ListView
         android:id="@+id/listUebersicht"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 </LinearLayout>
