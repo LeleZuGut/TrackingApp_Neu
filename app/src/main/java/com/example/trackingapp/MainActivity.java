@@ -46,23 +46,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         //Datenbank für Geräte
         mydatabase = openOrCreateDatabase("TrackingDatabase", MODE_PRIVATE, null);
-        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Devices(ID Integer,Name VARCHAR, Inventorynumber VARCHAR, Status VARCHAR);");
-        mydatabase.execSQL("DELETE FROM Devices;");
-        mydatabase.execSQL("Insert into Devices Values(" + 111111 + ",'" + "Bosch Schlagbohrmaschine GSB 20-2" + "','" + "M432K32" + "','" + "frei" + "');");
-        mydatabase.execSQL("Insert into Devices Values(" + 111112 + ",'" + "Bosch Professional Schlagbohrmaschine GSB 13 RE" + "','" + "M432K33" + "','" + "frei" + "');");
-        mydatabase.execSQL("Insert into Devices Values(" + 111113 + ",'" + "Bosch Professional Schlagbohrmaschine GSB 14 RE" + "','" + "M432K34" + "','" + "frei" + "');");
-        mydatabase.execSQL("Insert into Devices Values(" + 111114 + ",'" + "Makita Bohrhammer für SDS-PLUS 24 mm HR2470" + "','" + "M432K34" + "','" + "besetzt" + "');");
-        mydatabase.execSQL("Insert into Devices Values(" + 111115 + ",'" + "Makita Bohrhammer HR2478" + "','" + "M432K34" + "','" + "reparatur" + "');");
-        mydatabase.execSQL("INSERT INTO Devices VALUES (111116, 'Testobjekt', 'M84HFJI', 'besetzt');");
+        mydatabase.execSQL("Drop Table if exists Devices;");
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Devices(ID Integer,Name VARCHAR, Inventorynumber VARCHAR, Status VARCHAR, RepairMessage VARCHAR);");
+
+        mydatabase.execSQL("INSERT INTO Devices VALUES (111111, 'Bosch Schlagbohrmaschine GSB 20-2', 'M432K32', 'besetzt', NULL);");
+        mydatabase.execSQL("INSERT INTO Devices VALUES (111112, 'Makita Bohrhammer für SDS-PLUS 24 mm', 'HR2470', 'reparatur', 'Motor defekt');");
+        mydatabase.execSQL("INSERT INTO Devices VALUES (111113, 'Makita Bohrhammer HR2478', 'RJFKDN', 'frei', NULL);");
+        mydatabase.execSQL("INSERT INTO Devices VALUES (111114, 'Bohrhammer GXB223', 'M84HFJI', 'reparatur', 'Wird extrem heiß');");
+        mydatabase.execSQL("INSERT INTO Devices VALUES (111115, 'Testobjekt', 'M84HFJI', 'frei', NULL);");
+        mydatabase.execSQL("INSERT INTO Devices VALUES (111116, 'Akkubohrer 3D47f', 'M84HFJI', 'reparatur', 'Akuu muss getauscht werden');");
+
 
         //Navigationbar bereitstellen
         BottomNavigationView navView = findViewById(R.id.nav_view);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
         navView.setSelectedItemId(R.id.navigation_dashboard);
         navView.setOnNavigationItemSelectedListener(this);
-
-
-        scanBtn = findViewById(R.id.scanBtn);
 
     }
 
@@ -79,57 +78,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_nav_logout, menu);
         return true;
     }
-
-
-    public void scanBtnClicked(View view) {
-        scanCode();
-    }
-
-    private void scanCode() {
-        IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.setCaptureActivity(CaptureAct.class);
-        integrator.setOrientationLocked(false);
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-        integrator.setPrompt("Scanning Code");
-        integrator.initiateScan();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            if (result.getContents() != null) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//                builder.setMessage(result.getContents());
-//                builder.setTitle("Scanning Result");
-//                builder.setPositiveButton("Scan Again", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        scanCode();
-//                    }
-//                });
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
-
-//                String[] res = result.getContents().split(";");
-//                Object object = new Object(res[0], res[1]);
-//                arr.add(object);
-//                bindAdapter(listView);
-            } else {
-                Toast.makeText(this, "no Result", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-
-    }
-
 
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {

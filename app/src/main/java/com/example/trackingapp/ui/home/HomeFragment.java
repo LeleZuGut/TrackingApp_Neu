@@ -90,6 +90,7 @@ public class HomeFragment extends Fragment {
             o.setName(resultset.getString(1));
             o.setInventoryNumber(resultset.getString(2));
             o.setStatus((resultset.getString(3)));
+            o.setRepairmessage(resultset.getString(4));
             arr.add(o);
         }
         DevicesListAdapter myadapter = new DevicesListAdapter(this.getActivity(), R.layout.list_view_devices_2, arr);

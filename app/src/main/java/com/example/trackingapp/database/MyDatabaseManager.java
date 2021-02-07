@@ -25,8 +25,8 @@ public class MyDatabaseManager {
         return  mydatabase.rawQuery("Select * from Devices where "+where, null);
     }
 
-    public boolean updateStatus(int id, String status){
-        mydatabase.execSQL("Update Devices set Status = "+ status +" where ID = "+id);
+    public boolean updateStatus(int id, String status, String update){
+        mydatabase.execSQL("Update Devices set "+ update + " = "+ status +" where ID = "+id);
         HomeFragment.getInstance().loadList();
         return true;
     }

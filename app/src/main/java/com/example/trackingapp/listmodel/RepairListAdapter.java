@@ -54,7 +54,7 @@ public class RepairListAdapter extends BaseAdapter {
         deselect.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                mdm.updateStatus(o.getId(), "'frei'");
+                mdm.updateStatus(o.getId(), "'frei'", "Status");
             }
         });
 

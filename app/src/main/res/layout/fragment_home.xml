@@ -11,7 +11,12 @@
         android:id="@+id/search_view_übersicht"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Gerät suchen" />
+        android:iconifiedByDefault="false"
+        android:keepScreenOn="false"
+        android:queryHint="Gerät suchen...."
+        app:queryHint="Gerät suchen...."
+        app:defaultQueryHint="Gerät suchen...."
+        app:iconifiedByDefault="false"/>
 
     <ListView
         android:id="@+id/listUebersicht"
