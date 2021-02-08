@@ -100,6 +100,7 @@ public class DevicesListAdapter extends BaseAdapter implements Filterable {
             @Override
             public void onClick(View v) {
                 final EditText repairmessage = new EditText(ctx);
+                repairmessage.setHint("Was ist kaputt?");
                 new AlertDialog.Builder(ctx)
                         .setMessage("Gerät " + o.getName() + " auf Reparatur setzen?")
                         .setPositiveButton("JA", new DialogInterface.OnClickListener() {
