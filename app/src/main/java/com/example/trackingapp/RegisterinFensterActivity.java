@@ -82,4 +82,10 @@ public class RegisterinFensterActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginFensterActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        RegisterinFensterActivity.this.finish();
+        System.exit(0);
+    }
 }

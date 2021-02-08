@@ -7,6 +7,17 @@
     android:orientation="vertical"
     tools:context=".ui.notifications.NotificationsFragment">
 
+    <SearchView
+        android:id="@+id/search_view_repair"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
+        android:keepScreenOn="false"
+        android:queryHint="Gerät suchen...."
+        app:queryHint="Gerät suchen...."
+        app:defaultQueryHint="Gerät suchen...."
+        app:iconifiedByDefault="false"/> />
+
     <ListView
         android:id="@+id/listReparatur"
         android:layout_width="match_parent"

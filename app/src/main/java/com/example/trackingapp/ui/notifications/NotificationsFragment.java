@@ -5,10 +5,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.SearchEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +34,7 @@ public class NotificationsFragment extends Fragment {
     //SQLiteDatabase mydatabase;
     MyDatabaseManager mdm;
     ListView list;
+    SearchView search;
 
     private NotificationsViewModel notificationsViewModel;
 
@@ -49,6 +52,22 @@ public class NotificationsFragment extends Fragment {
        // mydatabase = getActivity().openOrCreateDatabase("TrackingDatabase", android.content.Context.MODE_PRIVATE, null);
         mdm = new MyDatabaseManager(getActivity());
         list = root.findViewById(R.id.listReparatur);
+        search = root.findViewById(R.id.search_view_repair);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                RepairListAdapter tmpadapter = (RepairListAdapter) list.getAdapter();
+                tmpadapter.getFilter().filter(newText);
+                list.setAdapter(tmpadapter);
+                return true;
+            }
+        });
         loadList(list);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

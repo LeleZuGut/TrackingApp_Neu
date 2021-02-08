@@ -19,8 +19,8 @@
             android:id="@+id/imageView"
             android:layout_width="214dp"
             android:layout_height="164dp"
-            app:srcCompat="@drawable/logo"
-            tools:srcCompat="@drawable/logo" />
+            app:srcCompat="@drawable/app_symbol_round"
+            tools:srcCompat="@drawable/app_symbol_round" />
 
         <View
             android:id="@+id/divider"

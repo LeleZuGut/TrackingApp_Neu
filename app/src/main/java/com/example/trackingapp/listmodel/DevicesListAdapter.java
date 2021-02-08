@@ -106,7 +106,7 @@ public class DevicesListAdapter extends BaseAdapter implements Filterable {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mdm.updateStatus(o.getId(), "'reparatur'", "Status");
-                                mdm.updateStatus(o.getId(), "'"+repairmessage.getText().toString()+"'", "RepairMessage");
+                                mdm.updateStatus(o.getId(), "'" + repairmessage.getText().toString() + "'", "RepairMessage");
                                 Toast.makeText(ctx, "Geräte wurde auf Status Reparatur gesetzt.", Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -157,12 +157,12 @@ public class DevicesListAdapter extends BaseAdapter implements Filterable {
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults results = new FilterResults(); // Holds the
+                FilterResults results = new FilterResults();
 
                 List<Object> FilteredArrList = new ArrayList<Object>();
 
                 if (mOriginalValues == null) {
-                    mOriginalValues = new ArrayList<Object>(objects); // saves
+                    mOriginalValues = new ArrayList<Object>(objects);
 
                 }
 
@@ -191,6 +191,5 @@ public class DevicesListAdapter extends BaseAdapter implements Filterable {
         };
         return filter;
     }
-
 }
 
