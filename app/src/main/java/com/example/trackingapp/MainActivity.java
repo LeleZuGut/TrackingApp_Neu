@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     SQLiteDatabase mydatabase;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         //Navigationbar bereitstellen
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
-        navView.setSelectedItemId(R.id.navigation_dashboard);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+        navView.setSelectedItemId(R.id.navigation_home);
         navView.setOnNavigationItemSelectedListener(this);
 
     }
@@ -108,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
 
             case R.id.navigation_dashboard:
-                fragment = new DashboardFragment();
+               scanCode();
                 break;
 
             case R.id.navigation_notifications:
@@ -118,6 +117,47 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         return loadFragment(fragment);
     }
+
+    //QR Code
+
+    private void scanCode() {
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setCaptureActivity(CaptureAct.class);
+        integrator.setOrientationLocked(false);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+        integrator.setPrompt("Gerät scannen");
+        integrator.initiateScan();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(result.getContents());
+                builder.setTitle("Gerät Scannen");
+                builder.setPositiveButton("Noch ein Gerät scannen?", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        scanCode();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+//                String[] res = result.getContents().split(";");
+//                Object object = new Object(res[0], res[1]);
+////                arr.add(object);
+//                bindAdapter(listView);
+            } else {
+                Toast.makeText(this, "QR Code konnte nicht erkannt werden. Versuche es nochmal.", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
