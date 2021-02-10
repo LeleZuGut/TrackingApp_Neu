@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_baseline_camera_24_black"
+        android:icon="@drawable/ic_baseline_qr_code_24"
         android:title="@string/title_dashboard" />
 
     <item

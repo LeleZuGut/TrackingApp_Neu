@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     //QR Code
 
     private void scanCode() {
+        
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setCaptureActivity(CaptureAct.class);
         integrator.setOrientationLocked(false);
@@ -127,8 +128,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         Object o = new Object();
-        Cursor resultset = db.rawQuery("Select * from Devices where id = " + result.getContents(), null);
+        Cursor resultset = null;
+        try{
+             resultset = db.rawQuery("Select * from Devices where id = " + result.getContents(), null);
+        }catch (Exception e){
+            Toast.makeText(this, "Gerät konnte nicht gefunden werden.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         resultset.moveToFirst();
+        if(resultset.getCount()==0){
+            return;
+        }
         o.setId(resultset.getInt(0));
         o.setName(resultset.getString(1));
         o.setInventoryNumber(resultset.getString(2));
@@ -137,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         if (o.getStatus().equals("frei")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Gerät Buchen?");
+            builder.setMessage("Gerät " +o.getName() +" buchen?");
             builder.setPositiveButton("Buchen", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {

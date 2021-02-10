@@ -85,7 +85,6 @@ public class RegisterinFensterActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        RegisterinFensterActivity.this.finish();
-        System.exit(0);
+
     }
 }

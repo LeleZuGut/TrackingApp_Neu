@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TrackingApp</string>
     <string name="title_home">Übersicht</string>
-    <string name="title_dashboard">Kamera</string>
+    <string name="title_dashboard">QR-Scanner</string>
     <string name="title_notifications">Wartung</string>
     <string name="scanBtn">Scan Now</string>
     <string name="uebersicht">Übersicht</string>
