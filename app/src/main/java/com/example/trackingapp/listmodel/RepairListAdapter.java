@@ -1,7 +1,10 @@
 package com.example.trackingapp.listmodel;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +13,13 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.trackingapp.Object;
 import com.example.trackingapp.R;
 import com.example.trackingapp.database.MyDatabaseManager;
+import com.example.trackingapp.ui.home.HomeFragment;
+import com.example.trackingapp.ui.notifications.NotificationsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +29,17 @@ public class RepairListAdapter extends BaseAdapter implements Filterable {
     private List<Object> objects = new ArrayList<>();
     private int layoutId;
     private LayoutInflater inflater;
-    MyDatabaseManager mdm;
+    Context ctx;
     private List<Object> mOriginalValues;
+    SQLiteDatabase db;
 
     public RepairListAdapter(Context ctx, int layoutId, List<Object> objects) {
         this.objects = objects;
         this.layoutId = layoutId;
         this.inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mdm = new MyDatabaseManager((Activity) ctx);
+        this.ctx = ctx;
+        MyDatabaseManager mdm = new MyDatabaseManager(ctx);
+        db = mdm.getReadableDatabase();
     }
 
     @Override
@@ -58,7 +67,22 @@ public class RepairListAdapter extends BaseAdapter implements Filterable {
         deselect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mdm.updateStatus(o.getId(), "'frei'", "Status");
+                new AlertDialog.Builder(ctx)
+                        .setMessage("Gerät " + o.getName() + " auf Verfügbar setzen?")
+                        .setPositiveButton("JA", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                db.execSQL("Update Devices set Status = 'frei' where ID = " + o.getId());
+                                NotificationsFragment.getInstance().loadList();
+                                Toast.makeText(ctx, "Geräte ist wieder verfügbar", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("NEIN", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
             }
         });
 

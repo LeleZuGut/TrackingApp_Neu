@@ -25,17 +25,17 @@ import com.example.trackingapp.database.MyDatabaseManager;
 import com.example.trackingapp.listmodel.DevicesListAdapter;
 import com.example.trackingapp.listmodel.RepairListAdapter;
 import com.example.trackingapp.ui.activities.show_device;
+import com.example.trackingapp.ui.home.HomeFragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class NotificationsFragment extends Fragment {
 
-    //SQLiteDatabase mydatabase;
-    MyDatabaseManager mdm;
     ListView list;
     SearchView search;
-
+    SQLiteDatabase db;
+    private static NotificationsFragment instance;
     private NotificationsViewModel notificationsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -49,8 +49,7 @@ public class NotificationsFragment extends Fragment {
 
             }
         });
-       // mydatabase = getActivity().openOrCreateDatabase("TrackingDatabase", android.content.Context.MODE_PRIVATE, null);
-        mdm = new MyDatabaseManager(getActivity());
+
         list = root.findViewById(R.id.listReparatur);
         search = root.findViewById(R.id.search_view_repair);
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -68,7 +67,10 @@ public class NotificationsFragment extends Fragment {
                 return true;
             }
         });
-        loadList(list);
+        instance = this;
+        MyDatabaseManager mdm = new MyDatabaseManager(getActivity());
+        db = mdm.getReadableDatabase();
+        loadList();
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -80,10 +82,9 @@ public class NotificationsFragment extends Fragment {
         return root;
     }
 
-    public void loadList(ListView lv) {
+    public void loadList() {
         ArrayList<Object> arr = new ArrayList();
-        //Cursor resultset = mydatabase.rawQuery("Select * from Devices where status = 'reparatur'", null);
-        Cursor resultset = mdm.selectPart("status = 'reparatur'");
+        Cursor resultset = db.rawQuery("Select * from Devices where status = 'reparatur' order by name", null);
         while (resultset.moveToNext()) {
             Object o = new Object();
             o.setId(resultset.getInt(0));
@@ -94,6 +95,10 @@ public class NotificationsFragment extends Fragment {
             arr.add(o);
         }
         RepairListAdapter myadapter = new RepairListAdapter(this.getActivity(), R.layout.list_view_repair_2, arr);
-        lv.setAdapter(myadapter);
+        list.setAdapter(myadapter);
+    }
+
+    public static NotificationsFragment getInstance() {
+        return instance;
     }
 }

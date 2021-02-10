@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +34,7 @@ public class DevicesListAdapter extends BaseAdapter implements Filterable {
     private int layoutId;
     private LayoutInflater inflater;
     Context ctx;
-    MyDatabaseManager mdm;
+    SQLiteDatabase db;
     private List<Object> mOriginalValues;
 
     public DevicesListAdapter(Context ctx, int layoutId, List<Object> objects) {
@@ -41,7 +42,8 @@ public class DevicesListAdapter extends BaseAdapter implements Filterable {
         this.layoutId = layoutId;
         this.inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.ctx = ctx;
-        mdm = new MyDatabaseManager((Activity) ctx);
+        MyDatabaseManager mdm = new MyDatabaseManager(ctx);
+        db = mdm.getReadableDatabase();
     }
 
     @Override
@@ -106,8 +108,8 @@ public class DevicesListAdapter extends BaseAdapter implements Filterable {
                         .setPositiveButton("JA", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mdm.updateStatus(o.getId(), "'reparatur'", "Status");
-                                mdm.updateStatus(o.getId(), "'" + repairmessage.getText().toString() + "'", "RepairMessage");
+                                db.execSQL("Update Devices set Status = 'reparatur' where ID = " + o.getId());
+                                HomeFragment.getInstance().loadList();
                                 Toast.makeText(ctx, "Geräte wurde auf Status Reparatur gesetzt.", Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -130,7 +132,8 @@ public class DevicesListAdapter extends BaseAdapter implements Filterable {
                         .setPositiveButton("BUCHEN", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mdm.updateStatus(o.getId(), "'besetzt'", "Status");
+                                db.execSQL("Update Devices set Status = 'besetzt' where ID = " + o.getId());
+                                HomeFragment.getInstance().loadList();
                                 Toast.makeText(ctx, "Geräte wurde auf Status Ausgliehen gesetzt.", Toast.LENGTH_SHORT).show();
                             }
                         })

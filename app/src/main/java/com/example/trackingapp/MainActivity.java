@@ -36,7 +36,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     Button scanBtn;
-    SQLiteDatabase mydatabase;
+    SQLiteDatabase db;
+    BottomNavigationView navView;
 
 
     @Override
@@ -44,24 +45,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Datenbank für Geräte
-        mydatabase = openOrCreateDatabase("TrackingDatabase", MODE_PRIVATE, null);
-        mydatabase.execSQL("Drop Table if exists Devices;");
-        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Devices(ID Integer,Name VARCHAR, Inventorynumber VARCHAR, Status VARCHAR, RepairMessage VARCHAR);");
-
-        mydatabase.execSQL("INSERT INTO Devices VALUES (111111, 'Bosch Schlagbohrmaschine GSB 20-2', 'M432K32', 'besetzt', NULL);");
-        mydatabase.execSQL("INSERT INTO Devices VALUES (111112, 'Makita Bohrhammer für SDS-PLUS 24 mm', 'HR2470', 'reparatur', 'Motor defekt');");
-        mydatabase.execSQL("INSERT INTO Devices VALUES (111113, 'Makita Bohrhammer HR2478', 'RJFKDN', 'frei', NULL);");
-        mydatabase.execSQL("INSERT INTO Devices VALUES (111114, 'Bohrhammer GXB223', 'M84HFJI', 'reparatur', 'Wird extrem heiß');");
-        mydatabase.execSQL("INSERT INTO Devices VALUES (111115, 'Testobjekt', 'M84HFJI', 'frei', NULL);");
-        mydatabase.execSQL("INSERT INTO Devices VALUES (111116, 'Akkubohrer 3D47f', 'M84HFJI', 'reparatur', 'Akuu muss getauscht werden');");
-
-
         //Navigationbar bereitstellen
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
         navView.setSelectedItemId(R.id.navigation_home);
         navView.setOnNavigationItemSelectedListener(this);
+
+
+
+        MyDatabaseManager mdm = new MyDatabaseManager(this);
+        db = mdm.getReadableDatabase();
 
     }
 
@@ -108,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
 
             case R.id.navigation_dashboard:
-               scanCode();
+                scanCode();
                 break;
 
             case R.id.navigation_notifications:
@@ -132,24 +125,68 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        Object o = new Object();
+        Cursor resultset = db.rawQuery("Select * from Devices where id = " + result.getContents(), null);
+        resultset.moveToFirst();
+        o.setId(resultset.getInt(0));
+        o.setName(resultset.getString(1));
+        o.setInventoryNumber(resultset.getString(2));
+        o.setStatus((resultset.getString(3)));
+        o.setRepairmessage(resultset.getString(4));
 
-            if (result.getContents() != null) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(result.getContents());
-                builder.setTitle("Gerät Scannen");
-                builder.setPositiveButton("Noch ein Gerät scannen?", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        scanCode();
+        if (o.getStatus().equals("frei")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Gerät Buchen?");
+            builder.setPositiveButton("Buchen", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    db.execSQL("Update Devices set Status = 'besetzt' where ID = " + result.getContents());
+                    try{
+                        HomeFragment.getInstance().loadList();
+                    }catch (Exception e){
+                        NotificationsFragment.getInstance().loadList();
                     }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                }
+            });
+            builder.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+
+        } else if (o.getStatus().equals("besetzt")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Gerät freigeben?");
+            builder.setPositiveButton("Freigeben", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    db.execSQL("Update Devices set Status = 'frei' where ID = " + result.getContents());
+                    try{
+                        HomeFragment.getInstance().loadList();
+                    }catch (Exception e){
+                        NotificationsFragment.getInstance().loadList();
+                    }
+                }
+            });
+            builder.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }else if(o.getStatus().equals("reparatur")){
+            Toast.makeText(this, "Gerät leider in Reparatur", Toast.LENGTH_SHORT).show();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+
     }
 
 

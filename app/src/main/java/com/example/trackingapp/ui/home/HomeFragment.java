@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     ListView list;
     SearchView search;
-    MyDatabaseManager mdm;
+    SQLiteDatabase db;
     private static HomeFragment instance;
 
 
@@ -75,7 +75,8 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        mdm = new MyDatabaseManager(getActivity());
+        MyDatabaseManager mdm = new MyDatabaseManager(getActivity());
+        db = mdm.getReadableDatabase();
         loadList();
 
         return root;
@@ -83,7 +84,7 @@ public class HomeFragment extends Fragment {
 
     public void loadList() {
         ArrayList<Object> arr = new ArrayList();
-        Cursor resultset = mdm.selectEverythingFromDevices();
+        Cursor resultset = db.rawQuery("Select * from Devices order by Name", null);
         while (resultset.moveToNext()) {
             Object o = new Object();
             o.setId(resultset.getInt(0));
