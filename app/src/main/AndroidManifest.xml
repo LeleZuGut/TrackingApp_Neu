@@ -14,19 +14,24 @@
         android:roundIcon="@drawable/app_symbol_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.show_device"></activity>
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".RegisterinFensterActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".LoginFensterActivity"
+        <activity android:name=".splashscreen">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity android:name=".ui.activities.show_device" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RegisterinFensterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginFensterActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".CaptureAct"

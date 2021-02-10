@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.trackingapp.database.MyDatabaseManager;
 import com.example.trackingapp.listmodel.DevicesListAdapter;
 import com.example.trackingapp.ui.dashboard.DashboardFragment;
 import com.example.trackingapp.ui.home.HomeFragment;
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
+
             if (result.getContents() != null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(result.getContents());
@@ -146,13 +147,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
-//                String[] res = result.getContents().split(";");
-//                Object object = new Object(res[0], res[1]);
-////                arr.add(object);
-//                bindAdapter(listView);
-            } else {
-                Toast.makeText(this, "QR Code konnte nicht erkannt werden. Versuche es nochmal.", Toast.LENGTH_SHORT).show();
-            }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
