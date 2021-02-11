@@ -1,10 +1,12 @@
 package com.example.trackingapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -30,10 +32,9 @@ public class LoginFensterActivity extends AppCompatActivity {
 
     public void handleButtonEinloggen(View view)
     {
+        String vorname = "";
         try {
-
-
-            String vorname = e1.getText().toString();
+            vorname = e1.getText().toString();
             String password = e2.getText().toString();
             Cursor resultSet = mydatabase.rawQuery("Select * from Users where Username = '" + vorname + "' and Password = '" + password + "'", null);
             resultSet.moveToFirst();
@@ -55,6 +56,9 @@ public class LoginFensterActivity extends AppCompatActivity {
 
             t.show();
         }
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(LoginFensterActivity.this);
+        prefs.edit().putString("user", vorname.toString()).commit();
     }
 
     public void handleButtonRegistrieren(View view)

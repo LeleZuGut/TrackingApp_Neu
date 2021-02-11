@@ -2,9 +2,11 @@ package com.example.trackingapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     Button scanBtn;
     SQLiteDatabase db;
     BottomNavigationView navView;
+    SharedPreferences prefs;
 
 
     @Override
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navView.setSelectedItemId(R.id.navigation_home);
         navView.setOnNavigationItemSelectedListener(this);
 
-
+        prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 
         MyDatabaseManager mdm = new MyDatabaseManager(this);
         db = mdm.getReadableDatabase();
@@ -64,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         int id = item.getItemId();
         switch (id) {
             case R.id.navigation_ausloggen:
+
+                prefs.edit().clear().commit();
                 Intent in = new Intent(this, LoginFensterActivity.class);
                 startActivity(in);
                 return true;
@@ -74,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_nav_logout, menu);
+        menu.getItem(1).setTitle(prefs.getString("user", "")+" "+menu.getItem(1).getTitle().toString());
         return true;
     }
 
