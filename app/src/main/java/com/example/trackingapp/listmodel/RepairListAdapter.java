@@ -73,6 +73,7 @@ public class RepairListAdapter extends BaseAdapter implements Filterable {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 db.execSQL("Update Devices set Status = 'frei' where ID = " + o.getId());
+                                db.execSQL("Update Devices set RepairMessage = null where ID = " + o.getId());
                                 NotificationsFragment.getInstance().loadList();
                                 Toast.makeText(ctx, "Geräte ist wieder verfügbar", Toast.LENGTH_SHORT).show();
                             }

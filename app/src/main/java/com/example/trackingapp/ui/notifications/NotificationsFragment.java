@@ -38,17 +38,9 @@ public class NotificationsFragment extends Fragment {
     private static NotificationsFragment instance;
     private NotificationsViewModel notificationsViewModel;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        notificationsViewModel = ViewModelProviders.of(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notifications, container, false);
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-
-            }
-        });
 
         list = root.findViewById(R.id.listReparatur);
         search = root.findViewById(R.id.search_view_repair);
@@ -56,7 +48,6 @@ public class NotificationsFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
-
             }
 
             @Override
@@ -67,10 +58,8 @@ public class NotificationsFragment extends Fragment {
                 return true;
             }
         });
-        instance = this;
-        MyDatabaseManager mdm = new MyDatabaseManager(getActivity());
-        db = mdm.getReadableDatabase();
-        loadList();
+
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -79,6 +68,11 @@ public class NotificationsFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        MyDatabaseManager mdm = new MyDatabaseManager(getActivity());
+        db = mdm.getReadableDatabase();
+        loadList();
+
+        instance = this;
         return root;
     }
 

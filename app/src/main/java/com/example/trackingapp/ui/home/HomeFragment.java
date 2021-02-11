@@ -39,10 +39,9 @@ public class HomeFragment extends Fragment {
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        instance = this;
+
         list = root.findViewById(R.id.listUebersicht);
         search = root.findViewById(R.id.search_view_übersicht);
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -60,6 +59,7 @@ public class HomeFragment extends Fragment {
                 return true;
             }
         });
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -69,16 +69,11 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-
-            }
-        });
         MyDatabaseManager mdm = new MyDatabaseManager(getActivity());
         db = mdm.getReadableDatabase();
         loadList();
 
+        instance = this;
         return root;
     }
 
@@ -95,11 +90,8 @@ public class HomeFragment extends Fragment {
             arr.add(o);
         }
         DevicesListAdapter myadapter = new DevicesListAdapter(this.getActivity(), R.layout.list_view_devices_2, arr);
-
         list.setAdapter(myadapter);
     }
-
-
 
     public static HomeFragment getInstance() {
         return instance;

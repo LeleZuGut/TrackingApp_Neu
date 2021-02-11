@@ -16,7 +16,8 @@
         android:queryHint="Gerät suchen...."
         app:queryHint="Gerät suchen...."
         app:defaultQueryHint="Gerät suchen...."
-        app:iconifiedByDefault="false"/>
+        app:iconifiedByDefault="false"
+        android:focusable="false"/>
 
     <ListView
         android:id="@+id/listUebersicht"

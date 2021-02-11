@@ -95,9 +95,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
                 fragment = new HomeFragment();
-                //ViewGroup vg = ((ViewGroup)fragment.getView().getParent()).getId();
-                //+
-                // View root = fragment.getLayoutInflater().inflate(R.layout.fragment_home, , false);
                 break;
 
             case R.id.navigation_dashboard:
@@ -113,9 +110,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     //QR Code
-
     private void scanCode() {
-        
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setCaptureActivity(CaptureAct.class);
         integrator.setOrientationLocked(false);
@@ -193,17 +188,35 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             AlertDialog dialog = builder.create();
             dialog.show();
         }else if(o.getStatus().equals("reparatur")){
-            Toast.makeText(this, "Gerät leider in Reparatur", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Gerät in Reparatur. Gerät " + o.getName() +" freigeben?");
+            builder.setPositiveButton("Freigeben", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    db.execSQL("Update Devices set Status = 'frei' where ID = " + result.getContents());
+                    try{
+                        HomeFragment.getInstance().loadList();
+                    }catch (Exception e){
+                        NotificationsFragment.getInstance().loadList();
+                    }
+                }
+            });
+            builder.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
 
     }
 
-
     @Override
     public void onBackPressed() {
-        MainActivity.this.finish();
-        System.exit(0);
+        moveTaskToBack(true);
     }
 }

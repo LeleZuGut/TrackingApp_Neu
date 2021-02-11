@@ -109,6 +109,7 @@ public class DevicesListAdapter extends BaseAdapter implements Filterable {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 db.execSQL("Update Devices set Status = 'reparatur' where ID = " + o.getId());
+                                db.execSQL("Update Devices set RepairMessage = "+"'"+repairmessage.getText().toString()+"'"+" where ID = " + o.getId());
                                 HomeFragment.getInstance().loadList();
                                 Toast.makeText(ctx, "Geräte wurde auf Status Reparatur gesetzt.", Toast.LENGTH_SHORT).show();
                             }

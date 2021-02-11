@@ -67,7 +67,7 @@ public class LoginFensterActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        System.exit(0);
+        moveTaskToBack(true);
     }
 
 

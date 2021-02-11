@@ -40,48 +40,4 @@ public class DashboardFragment extends Fragment {
         return root;
     }
 
-//    public void scanBtnClicked(View view) {
-//        scanCode();
-//    }
-
-//    private void scanCode() {
-//        IntentIntegrator integrator = new IntentIntegrator(getActivity());
-//        integrator.setCaptureActivity(CaptureAct.class);
-//        integrator.setOrientationLocked(false);
-//        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-//        integrator.setPrompt("Scanning Code");
-//        integrator.initiateScan();
-//    }
-//
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-//        if (result != null) {
-//            if (result.getContents() != null) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//                builder.setMessage(result.getContents());
-//                builder.setTitle("Scanning Result");
-//                builder.setPositiveButton("Scan Again", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        scanCode();
-//                    }
-//                });
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
-//
-////                String[] res = result.getContents().split(";");
-////                Object object = new Object(res[0], res[1]);
-//////                arr.add(object);
-////                bindAdapter(listView);
-//            } else {
-//                Toast.makeText(getActivity(), "no Result", Toast.LENGTH_SHORT).show();
-//            }
-//        } else {
-//            super.onActivityResult(requestCode, resultCode, data);
-//        }
-
-//    }
-
-
 }

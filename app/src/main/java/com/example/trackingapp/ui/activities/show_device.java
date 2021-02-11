@@ -26,7 +26,7 @@ import com.google.zxing.integration.android.IntentResult;
 public class show_device extends AppCompatActivity {
 
     Object o;
-    TextView name, inventorynumber, status, repairmessage;
+    TextView name, inventorynumber, repairmessage;
     Spinner spinner;
     Button speichern, zurück;
 
@@ -39,7 +39,6 @@ public class show_device extends AppCompatActivity {
         o = (Object) i.getSerializableExtra("object");
         name = findViewById(R.id.text_view_showdevice_name);
         inventorynumber = findViewById(R.id.text_view_showdevice_inventoryNumber);
-        status = findViewById(R.id.text_view_showdevice_status);
         repairmessage = findViewById(R.id.text_view_showdevice_repairmessage);
         spinner = (Spinner) findViewById(R.id.spinner_show_device_status);
         speichern = findViewById(R.id.button_showdevice_speichern);
@@ -48,6 +47,20 @@ public class show_device extends AppCompatActivity {
         String[] statuse = {"Verfügbar", "Besetzt", "Defekt"};
         StatusSpinnerAdapter myAdapter = new StatusSpinnerAdapter(this, statuse);
         spinner.setAdapter(myAdapter);
+        int spinnerposition  = 0;
+        switch (o.getStatus()){
+            case "frei":
+                spinnerposition = 0;
+                break;
+            case "besetzt":
+                spinnerposition = 1;
+                break;
+            case "reparatur":
+                spinnerposition = 2;
+                break;
+        }
+        spinner.setSelection(spinnerposition);
+
 
         zurück.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +80,7 @@ public class show_device extends AppCompatActivity {
 
     private void setValues(Object o) {
         name.setText(o.getName());
-        inventorynumber.setText(o.getInventoryNumber());
-        status.setText(o.getStatus());
+        inventorynumber.setText(inventorynumber.getText().toString()+" "+o.getInventoryNumber());
         repairmessage.setText(o.getRepairmessage());
     }
 
