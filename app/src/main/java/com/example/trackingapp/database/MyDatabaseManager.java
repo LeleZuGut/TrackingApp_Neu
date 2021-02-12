@@ -50,6 +50,10 @@ public class MyDatabaseManager extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO Devices VALUES (111114, 'Bohrhammer GXB223', 'M84HFJI', 'reparatur', 'Wird extrem heiß');");
         db.execSQL("INSERT INTO Devices VALUES (111115, 'Testobjekt', 'M84HFJI', 'frei', NULL);");
         db.execSQL("INSERT INTO Devices VALUES (111116, 'Akkubohrer 3D47f', 'M84HFJI', 'reparatur', 'Akuu muss getauscht werden');");
+
+        db.execSQL("Drop Table if exists Users;");
+        db.execSQL("CREATE TABLE IF NOT EXISTS Users(ID Integer,Username VARCHAR, Password VARCHAR, Email VARCHAR);");
+        db.execSQL("INSERT INTO Users VALUES (1, 'admin', 'admin', 'admin@trackingApp.at');");
     }
 
     @Override
@@ -62,5 +66,9 @@ public class MyDatabaseManager extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO Devices VALUES (111114, 'Bohrhammer GXB223', 'M84HFJI', 'reparatur', 'Wird extrem heiß');");
         db.execSQL("INSERT INTO Devices VALUES (111115, 'Testobjekt', 'M84HFJI', 'frei', NULL);");
         db.execSQL("INSERT INTO Devices VALUES (111116, 'Akkubohrer 3D47f', 'M84HFJI', 'reparatur', 'Akuu muss getauscht werden');");
+
+        db.execSQL("Drop Table if exists Users;");
+        db.execSQL("CREATE TABLE IF NOT EXISTS Users(ID Integer,Username VARCHAR, Password VARCHAR, Email VARCHAR);");
+        db.execSQL("INSERT INTO Users VALUES (1, 'admin', 'admin', 'admin@trackingApp.at');");
     }
 }

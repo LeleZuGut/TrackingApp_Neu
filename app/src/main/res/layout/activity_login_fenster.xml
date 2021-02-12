@@ -65,6 +65,15 @@
             android:ems="10"
             android:hint="@string/hint_password"
             android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/text_view_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="#DC1919" />
     </LinearLayout>
 
     <LinearLayout
@@ -76,7 +85,7 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/button_Register"
+            android:id="@+id/button_Login"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:background="@drawable/layout_button"
