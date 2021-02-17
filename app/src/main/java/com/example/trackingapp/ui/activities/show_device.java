@@ -1,31 +1,20 @@
 package com.example.trackingapp.ui.activities;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.trackingapp.CaptureAct;
-import com.example.trackingapp.MainActivity;
-import com.example.trackingapp.Object;
+import com.example.trackingapp.model.Object;
 import com.example.trackingapp.R;
 import com.example.trackingapp.database.MyDatabaseManager;
-import com.example.trackingapp.listmodel.DevicesListAdapter;
-import com.example.trackingapp.model.statusEnum;
 import com.example.trackingapp.spinnermodel.StatusSpinnerAdapter;
-import com.example.trackingapp.ui.dashboard.DashboardFragment;
 import com.example.trackingapp.ui.home.HomeFragment;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 public class show_device extends AppCompatActivity {
 

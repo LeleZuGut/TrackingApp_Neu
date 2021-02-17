@@ -1,4 +1,4 @@
-package com.example.trackingapp;
+package com.example.trackingapp.ui.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.trackingapp.R;
 import com.example.trackingapp.database.MyDatabaseManager;
 
 public class LoginFensterActivity extends AppCompatActivity {
@@ -81,7 +82,7 @@ public class LoginFensterActivity extends AppCompatActivity {
     }
 
     public void handleButtonRegistrieren(View view) {
-        Intent intent = new Intent(this,RegisterinFensterActivity.class);
+        Intent intent = new Intent(this, RegisterinFensterActivity.class);
         startActivity(intent);
     }
 

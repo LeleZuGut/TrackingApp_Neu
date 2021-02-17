@@ -1,4 +1,4 @@
-package com.example.trackingapp;
+package com.example.trackingapp.model;
 
 public class Users {
     int id;

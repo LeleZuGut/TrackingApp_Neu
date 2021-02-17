@@ -1,6 +1,5 @@
 package com.example.trackingapp.listmodel;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,10 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.trackingapp.Object;
+import com.example.trackingapp.model.Object;
 import com.example.trackingapp.R;
 import com.example.trackingapp.database.MyDatabaseManager;
-import com.example.trackingapp.ui.home.HomeFragment;
 import com.example.trackingapp.ui.notifications.NotificationsFragment;
 
 import java.util.ArrayList;

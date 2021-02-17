@@ -1,4 +1,4 @@
-package com.example.trackingapp;
+package com.example.trackingapp.ui.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,14 +9,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.trackingapp.CaptureAct;
+import com.example.trackingapp.model.Object;
+import com.example.trackingapp.R;
 import com.example.trackingapp.database.MyDatabaseManager;
-import com.example.trackingapp.listmodel.DevicesListAdapter;
-import com.example.trackingapp.ui.dashboard.DashboardFragment;
 import com.example.trackingapp.ui.home.HomeFragment;
 import com.example.trackingapp.ui.notifications.NotificationsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -27,13 +26,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {

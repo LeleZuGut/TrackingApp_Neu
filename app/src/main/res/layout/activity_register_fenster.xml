@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context=".RegisterinFensterActivity"
+    tools:context=".ui.activities.RegisterinFensterActivity"
     android:screenOrientation="portrait" >
 
     <LinearLayout

@@ -1,4 +1,4 @@
-package com.example.trackingapp;
+package com.example.trackingapp.ui.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+
+import com.example.trackingapp.R;
 
 public class splashscreen extends AppCompatActivity {
 private static int SPLASH_TIME_OUT = 2000;

@@ -5,27 +5,21 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.SearchEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.trackingapp.Object;
+import com.example.trackingapp.model.Object;
 import com.example.trackingapp.R;
 import com.example.trackingapp.database.MyDatabaseManager;
-import com.example.trackingapp.listmodel.DevicesListAdapter;
 import com.example.trackingapp.listmodel.RepairListAdapter;
 import com.example.trackingapp.ui.activities.show_device;
-import com.example.trackingapp.ui.home.HomeFragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
