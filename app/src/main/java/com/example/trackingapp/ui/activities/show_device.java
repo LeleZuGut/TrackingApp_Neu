@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,8 +18,11 @@ import com.example.trackingapp.CaptureAct;
 import com.example.trackingapp.MainActivity;
 import com.example.trackingapp.Object;
 import com.example.trackingapp.R;
+import com.example.trackingapp.database.MyDatabaseManager;
+import com.example.trackingapp.listmodel.DevicesListAdapter;
 import com.example.trackingapp.model.statusEnum;
 import com.example.trackingapp.spinnermodel.StatusSpinnerAdapter;
+import com.example.trackingapp.ui.dashboard.DashboardFragment;
 import com.example.trackingapp.ui.home.HomeFragment;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -29,12 +33,16 @@ public class show_device extends AppCompatActivity {
     TextView name, inventorynumber, repairmessage;
     Spinner spinner;
     Button speichern, zurück;
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_device);
         Intent i = getIntent();
+
+        MyDatabaseManager mdm = new MyDatabaseManager(this);
+        db = mdm.getReadableDatabase();
 
         o = (Object) i.getSerializableExtra("object");
         name = findViewById(R.id.text_view_showdevice_name);
@@ -47,8 +55,8 @@ public class show_device extends AppCompatActivity {
         String[] statuse = {"Verfügbar", "Besetzt", "Defekt"};
         StatusSpinnerAdapter myAdapter = new StatusSpinnerAdapter(this, statuse);
         spinner.setAdapter(myAdapter);
-        int spinnerposition  = 0;
-        switch (o.getStatus()){
+        int spinnerposition = 0;
+        switch (o.getStatus()) {
             case "frei":
                 spinnerposition = 0;
                 break;
@@ -71,7 +79,7 @@ public class show_device extends AppCompatActivity {
         speichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                speichern();
             }
         });
 
@@ -80,10 +88,32 @@ public class show_device extends AppCompatActivity {
 
     private void setValues(Object o) {
         name.setText(o.getName());
-        inventorynumber.setText(inventorynumber.getText().toString()+" "+o.getInventoryNumber());
+        inventorynumber.setText(inventorynumber.getText().toString() + " " + o.getInventoryNumber());
         repairmessage.setText(o.getRepairmessage());
     }
 
+    public void speichern() {
+        String selection = "";
+        switch (spinner.getSelectedItemPosition()) {
+            case 0:
+                selection = "'frei'";
+                break;
+            case 1:
+                selection = "'besetzt'";
+                break;
+            case 2:
+                selection = "'reparatur'";
+                break;
+
+            default:
+                selection = "'reparatur'";
+                break;
+        }
+        db.execSQL("Update Devices set Status = "+ selection + " where ID = " + o.getId());
+        finish();
+        HomeFragment.getInstance().loadList();
+
+    }
 
 
 }
