@@ -2,16 +2,18 @@ package com.example.trackingapp.model;
 
 public class Users {
     int id;
-    String vorname;
-    String nachname;
+    String benutzer;
+    String mail;
+    String password;
 
     public Users() {
     }
 
-    public Users(int id, String vorname, String nachname) {
+    public Users(int id, String benutzer, String mail, String password) {
         this.id = id;
-        this.vorname = vorname;
-        this.nachname = nachname;
+        this.benutzer = benutzer;
+        this.mail = mail;
+        this.password = password;
     }
 
     public int getId() {
@@ -22,28 +24,27 @@ public class Users {
         this.id = id;
     }
 
-    public String getVorname() {
-        return vorname;
+    public String getBenutzer() {
+        return benutzer;
     }
 
-    public void setVorname(String vorname) {
-        this.vorname = vorname;
+    public void setBenutzer(String benutzer) {
+        this.benutzer = benutzer;
     }
 
-    public String getNachname() {
-        return nachname;
+    public String getMail() {
+        return mail;
     }
 
-    public void setNachname(String nachname) {
-        this.nachname = nachname;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
-    @Override
-    public String toString() {
-        return "Users{" +
-                "id=" + id +
-                ", vorname='" + vorname + '\'' +
-                ", nachname='" + nachname + '\'' +
-                '}';
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

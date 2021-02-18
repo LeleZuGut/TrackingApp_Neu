@@ -61,9 +61,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.navigation_ausloggen:
 
                 prefs.edit().clear().commit();
-                Intent in = new Intent(this, LoginFensterActivity.class);
-                startActivity(in);
+                Intent login = new Intent(this, LoginFensterActivity.class);
+                startActivity(login);
                 return true;
+
+            case R.id.navigation_user:
+                Intent user = new Intent(this, show_user.class);
+                startActivity(user);
+                return true;
+
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -71,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_nav_logout, menu);
-        menu.getItem(1).setTitle(prefs.getString("user", "")+" "+menu.getItem(1).getTitle().toString());
+        menu.getItem(1).setTitle(prefs.getString("user", "") + " " + menu.getItem(1).getTitle().toString());
         return true;
     }
 
@@ -122,15 +129,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         Object o = new Object();
         Cursor resultset = null;
-        try{
-             resultset = db.rawQuery("Select * from Devices where id = " + result.getContents(), null);
-        }catch (Exception e){
+        try {
+            resultset = db.rawQuery("Select * from Devices where id = " + result.getContents(), null);
+        } catch (Exception e) {
             Toast.makeText(this, "Gerät konnte nicht gefunden werden.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         resultset.moveToFirst();
-        if(resultset.getCount()==0){
+        if (resultset.getCount() == 0) {
             return;
         }
         o.setId(resultset.getInt(0));
@@ -141,14 +148,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         if (o.getStatus().equals("frei")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Gerät " +o.getName() +" buchen?");
+            builder.setMessage("Gerät " + o.getName() + " buchen?");
             builder.setPositiveButton("Buchen", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     db.execSQL("Update Devices set Status = 'besetzt' where ID = " + result.getContents());
-                    try{
+                    try {
                         HomeFragment.getInstance().loadList();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         NotificationsFragment.getInstance().loadList();
                     }
                 }
@@ -170,9 +177,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     db.execSQL("Update Devices set Status = 'frei' where ID = " + result.getContents());
-                    try{
+                    try {
                         HomeFragment.getInstance().loadList();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         NotificationsFragment.getInstance().loadList();
                     }
                 }
@@ -185,16 +192,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             });
             AlertDialog dialog = builder.create();
             dialog.show();
-        }else if(o.getStatus().equals("reparatur")){
+        } else if (o.getStatus().equals("reparatur")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Gerät in Reparatur. Gerät " + o.getName() +" freigeben?");
+            builder.setMessage("Gerät in Reparatur. Gerät " + o.getName() + " freigeben?");
             builder.setPositiveButton("Freigeben", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     db.execSQL("Update Devices set Status = 'frei' where ID = " + result.getContents());
-                    try{
+                    try {
                         HomeFragment.getInstance().loadList();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         NotificationsFragment.getInstance().loadList();
                     }
                 }
