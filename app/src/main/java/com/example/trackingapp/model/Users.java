@@ -1,7 +1,8 @@
 package com.example.trackingapp.model;
 
-public class Users {
-    int id;
+import java.io.Serializable;
+
+public class Users implements Serializable {
     String benutzer;
     String mail;
     String password;
@@ -9,19 +10,10 @@ public class Users {
     public Users() {
     }
 
-    public Users(int id, String benutzer, String mail, String password) {
-        this.id = id;
+    public Users(String benutzer, String mail, String password) {
         this.benutzer = benutzer;
         this.mail = mail;
         this.password = password;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getBenutzer() {

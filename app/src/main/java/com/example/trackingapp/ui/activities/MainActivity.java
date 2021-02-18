@@ -16,6 +16,7 @@ import com.example.trackingapp.CaptureAct;
 import com.example.trackingapp.model.Object;
 import com.example.trackingapp.R;
 import com.example.trackingapp.database.MyDatabaseManager;
+import com.example.trackingapp.model.Users;
 import com.example.trackingapp.ui.home.HomeFragment;
 import com.example.trackingapp.ui.notifications.NotificationsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     SQLiteDatabase db;
     BottomNavigationView navView;
     SharedPreferences prefs;
+    Users signedInUser;
 
 
     @Override
@@ -51,6 +53,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         MyDatabaseManager mdm = new MyDatabaseManager(this);
         db = mdm.getReadableDatabase();
 
+        //Aktuellen User sich holen
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+        signedInUser = (Users) b.getSerializable("signedinUser");
+
     }
 
 
@@ -67,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             case R.id.navigation_user:
                 Intent user = new Intent(this, show_user.class);
+                user.putExtra("signedinUser", signedInUser);
                 startActivity(user);
                 return true;
 
@@ -78,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_nav_logout, menu);
-        menu.getItem(1).setTitle(prefs.getString("user", "") + " " + menu.getItem(1).getTitle().toString());
+        menu.getItem(1).setTitle(signedInUser.getBenutzer() + " " + menu.getItem(1).getTitle().toString());
         return true;
     }
 

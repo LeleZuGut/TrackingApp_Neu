@@ -19,6 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.trackingapp.R;
 import com.example.trackingapp.database.MyDatabaseManager;
+import com.example.trackingapp.model.Users;
+import com.google.gson.Gson;
+
+import java.io.Serializable;
 
 public class LoginFensterActivity extends AppCompatActivity {
     EditText edit_text_benutzername, edit_text_passwort;
@@ -67,9 +71,13 @@ public class LoginFensterActivity extends AppCompatActivity {
             Log.i("Lolo", resultSet.getString(0));
 
             if (vorname.equals(resultSet.getString(1)) && password.equals(resultSet.getString(2))) {
+                Users u = new Users(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3));
+                Gson gson = new Gson();
+                String json = gson.toJson(u);
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(LoginFensterActivity.this);
-                prefs.edit().putString("user", vorname.toString()).commit();
+                prefs.edit().putString("user", json).commit();
                 Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("signedinUser", (Serializable) u);
                 startActivity(intent);
             } else {
                 error.setText("Upps, beim Login ist etwas schiefgelaufen. \n  Passwort oder Username sind falsch.");
