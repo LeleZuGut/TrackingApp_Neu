@@ -54,9 +54,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         db = mdm.getReadableDatabase();
 
         //Aktuellen User sich holen
-        Intent i = getIntent();
-        Bundle b = i.getExtras();
-        signedInUser = (Users) b.getSerializable("signedinUser");
+        try{
+            Intent i = getIntent();
+            Bundle b = i.getExtras();
+            signedInUser = (Users) b.getSerializable("signedinUser");
+        }catch (Exception e){
+             signedInUser = new Users();
+        }
+
 
     }
 
