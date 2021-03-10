@@ -163,6 +163,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/layout_button"
             android:text="Zurück"
+            android:textColor="#FFFFFF"
             android:textSize="10sp" />
 
         <Space
@@ -176,6 +177,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/layout_button"
             android:text="Speichern"
+            android:textColor="#FFFFFF"
             android:textSize="10sp" />
 
         <Space
