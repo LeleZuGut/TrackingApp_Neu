@@ -91,6 +91,6 @@ public class RegisterinFensterActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+         finish();
     }
 }

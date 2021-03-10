@@ -15,6 +15,7 @@ import com.example.trackingapp.R;
 import com.example.trackingapp.database.MyDatabaseManager;
 import com.example.trackingapp.spinnermodel.StatusSpinnerAdapter;
 import com.example.trackingapp.ui.home.HomeFragment;
+import com.example.trackingapp.ui.notifications.NotificationsFragment;
 
 public class show_device extends AppCompatActivity {
 
@@ -100,7 +101,12 @@ public class show_device extends AppCompatActivity {
         }
         db.execSQL("Update Devices set Status = "+ selection + " where ID = " + o.getId());
         finish();
-        HomeFragment.getInstance().loadList();
+        try{
+            HomeFragment.getInstance().loadList();
+        }catch (NullPointerException e){
+            NotificationsFragment.getInstance().loadList();
+        }
+
 
     }
 

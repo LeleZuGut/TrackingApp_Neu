@@ -30,21 +30,24 @@
         android:id="@+id/text_view_password_show_benutzer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="15dp"
         android:text="TextView" />
 
     <TextView
         android:id="@+id/text_view_benutzername_show_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="15dp"
         android:text="TextView" />
 
     <Button
         android:id="@+id/button_zurück_show_benutzer"
-        android:layout_width="255dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
         android:layout_marginTop="300px"
+        android:layout_marginRight="30px"
         android:background="@drawable/layout_button"
-        android:text="Zurück" />
+        android:text="Zurück"
+        android:textColor="#FFFFFF" />
 </LinearLayout>

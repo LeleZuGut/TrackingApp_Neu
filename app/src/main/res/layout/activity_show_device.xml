@@ -150,40 +150,33 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:orientation="horizontal">
-
-        <Space
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_showdevice_zurück"
-            android:layout_width="104dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+            android:layout_marginRight="15px"
+            android:layout_weight="1"
             android:background="@drawable/layout_button"
             android:text="Zurück"
             android:textColor="#FFFFFF"
             android:textSize="10sp" />
 
-        <Space
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_showdevice_speichern"
-            android:layout_width="131dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15px"
+            android:layout_marginRight="30px"
+            android:layout_weight="1"
             android:background="@drawable/layout_button"
             android:text="Speichern"
             android:textColor="#FFFFFF"
             android:textSize="10sp" />
 
-        <Space
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
     </LinearLayout>
 
 </LinearLayout>

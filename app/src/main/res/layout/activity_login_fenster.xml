@@ -20,8 +20,8 @@
             android:id="@+id/imageView"
             android:layout_width="214dp"
             android:layout_height="164dp"
-            app:srcCompat="@drawable/app_symbol_round"
-            tools:srcCompat="@drawable/app_symbol_round" />
+            app:srcCompat="@drawable/ic_baseline_track_changes_24"
+            tools:srcCompat="@drawable/ic_baseline_track_changes_24" />
 
         <View
             android:id="@+id/divider"
