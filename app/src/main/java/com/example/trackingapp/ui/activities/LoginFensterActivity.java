@@ -5,16 +5,21 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.AndroidException;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.trackingapp.R;
@@ -34,6 +39,9 @@ public class LoginFensterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_fenster);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         edit_text_benutzername = findViewById(R.id.editText_Register_username);
         edit_text_passwort = findViewById(R.id.editText_Register_Password);
         edit_text_benutzername.addTextChangedListener(mytextwatcher);
@@ -55,6 +63,9 @@ public class LoginFensterActivity extends AppCompatActivity {
             String usernameInput = edit_text_benutzername.getText().toString().trim();
             String passwordInput = edit_text_passwort.getText().toString().trim();
             einloggen.setEnabled(!usernameInput.isEmpty() && !passwordInput.isEmpty());
+//            if(einloggen.isEnabled()){
+//                einloggen.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+//            }
         }
         @Override
         public void afterTextChanged(Editable s) {

@@ -31,6 +31,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.LoginFensterActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"></activity>
         <activity

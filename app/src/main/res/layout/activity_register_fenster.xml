@@ -10,10 +10,13 @@
     tools:context=".ui.activities.RegisterinFensterActivity"
     android:screenOrientation="portrait" >
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="60px" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.5"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical">
 
@@ -39,12 +42,15 @@
             android:textAlignment="center"
             android:textColor="@android:color/darker_gray"
             android:textSize="30dp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="80px" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -87,13 +93,20 @@
             android:hint="@string/hint_passwordbestätigung"
             android:inputType="textPassword" />
 
+        <TextView
+            android:id="@+id/text_view_error_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="#DC1919" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_weight="2"
         android:gravity="bottom|center_horizontal"
         android:orientation="vertical">
 

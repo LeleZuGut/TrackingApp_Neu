@@ -7,22 +7,31 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.trackingapp.R;
+
+import java.nio.file.Files;
 
 public class RegisterinFensterActivity extends AppCompatActivity {
     EditText e1, e2, e3, e4;
     Button b1, b2;
     SQLiteDatabase mydatabase;
+    TextView error;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mydatabase = openOrCreateDatabase("TrackingDatabase", MODE_PRIVATE, null);
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Users(ID Integer,Username VARCHAR, Password VARCHAR, Email VARCHAR);");
 
@@ -37,6 +46,8 @@ public class RegisterinFensterActivity extends AppCompatActivity {
 
         b1 = findViewById(R.id.button_Register);
         b2 = findViewById(R.id.button_RegistertoLogin);
+
+        error = findViewById(R.id.text_view_error_register);
 
 
     }
@@ -62,8 +73,7 @@ public class RegisterinFensterActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             } else {
-                Toast t = Toast.makeText(this, "Bestätige dein Passwort richtig", Toast.LENGTH_LONG);
-                t.show();
+                error.setText("Passwort stimmen nicht überein");
             }
 
         }
