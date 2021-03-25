@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,11 +83,14 @@ public class LoginFensterActivity extends AppCompatActivity {
             Log.i("Lolo", resultSet.getString(0));
 
             if (vorname.equals(resultSet.getString(1)) && password.equals(resultSet.getString(2))) {
-                Users u = new Users(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3));
+                Users u = new Users(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4));
                 Gson gson = new Gson();
                 String json = gson.toJson(u);
+
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(LoginFensterActivity.this);
                 prefs.edit().putString("user", json).commit();
+                prefs.edit().putInt("firmId", resultSet.getInt(4)).commit();
+
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("signedinUser", (Serializable) u);
                 startActivity(intent);
@@ -101,8 +105,9 @@ public class LoginFensterActivity extends AppCompatActivity {
     }
 
     public void handleButtonRegistrieren(View view) {
-        Intent intent = new Intent(this, RegisterinFensterActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, RegisterinFensterActivity.class);
+        //startActivity(intent);
+        Toast.makeText(this, "Funktion ist nicht verfügbar. Es tut uns leid", Toast.LENGTH_SHORT).show();
     }
 
 

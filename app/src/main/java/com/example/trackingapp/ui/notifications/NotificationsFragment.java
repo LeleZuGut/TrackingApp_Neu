@@ -1,9 +1,11 @@
 package com.example.trackingapp.ui.notifications;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,10 +33,14 @@ public class NotificationsFragment extends Fragment {
     SQLiteDatabase db;
     private static NotificationsFragment instance;
     private NotificationsViewModel notificationsViewModel;
+    int firmId;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel = ViewModelProviders.of(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notifications, container, false);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        firmId = prefs.getInt("firmId", 0000);
 
         list = root.findViewById(R.id.listReparatur);
         search = root.findViewById(R.id.search_view_repair);
@@ -72,7 +78,7 @@ public class NotificationsFragment extends Fragment {
 
     public void loadList() {
         ArrayList<Object> arr = new ArrayList();
-        Cursor resultset = db.rawQuery("Select * from Devices where status = 'reparatur' order by name", null);
+        Cursor resultset = db.rawQuery("Select * from Devices where status = 'reparatur' and firmenID = "+ firmId +" order by name", null);
         while (resultset.moveToNext()) {
             Object o = new Object();
             o.setId(resultset.getInt(0));

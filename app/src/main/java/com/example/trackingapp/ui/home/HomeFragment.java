@@ -1,9 +1,11 @@
 package com.example.trackingapp.ui.home;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import com.example.trackingapp.model.Object;
 import com.example.trackingapp.R;
 import com.example.trackingapp.database.MyDatabaseManager;
 import com.example.trackingapp.listmodel.DevicesListAdapter;
+import com.example.trackingapp.ui.activities.MainActivity;
 import com.example.trackingapp.ui.activities.show_device;
 
 
@@ -32,6 +35,7 @@ public class HomeFragment extends Fragment {
     SearchView search;
     SQLiteDatabase db;
     private static HomeFragment instance;
+    int firmId;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,6 +44,10 @@ public class HomeFragment extends Fragment {
 
         list = root.findViewById(R.id.listUebersicht);
         search = root.findViewById(R.id.search_view_übersicht);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        firmId = prefs.getInt("firmId", 0000);
+
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -75,7 +83,7 @@ public class HomeFragment extends Fragment {
 
     public void loadList() {
         ArrayList<Object> arr = new ArrayList();
-        Cursor resultset = db.rawQuery("Select * from Devices order by Name", null);
+        Cursor resultset = db.rawQuery("Select * from Devices where firmenID ="+firmId+" order by Name", null);
         while (resultset.moveToNext()) {
             Object o = new Object();
             o.setId(resultset.getInt(0));

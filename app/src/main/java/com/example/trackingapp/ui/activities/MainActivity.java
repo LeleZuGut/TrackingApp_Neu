@@ -17,6 +17,7 @@ import com.example.trackingapp.model.Object;
 import com.example.trackingapp.R;
 import com.example.trackingapp.database.MyDatabaseManager;
 import com.example.trackingapp.model.Users;
+import com.example.trackingapp.newDevice;
 import com.example.trackingapp.ui.home.HomeFragment;
 import com.example.trackingapp.ui.notifications.NotificationsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -63,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
 
 
+
+
+
     }
 
 
@@ -82,6 +86,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 user.putExtra("signedinUser", signedInUser);
                 startActivity(user);
                 return true;
+
+
+            case R.id.navigation_addDevice:
+                Intent newDevice = new Intent(this, com.example.trackingapp.newDevice.class);
+                 startActivity(newDevice);
 
 
         }
@@ -158,7 +167,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         o.setInventoryNumber(resultset.getString(2));
         o.setStatus((resultset.getString(3)));
         o.setRepairmessage(resultset.getString(4));
+        o.setFirmId(resultset.getInt(5));
 
+        if (o.getFirmId() == signedInUser.getFirmenID()) {
         if (o.getStatus().equals("frei")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Gerät " + o.getName() + " buchen?");
@@ -229,6 +240,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             dialog.show();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
+        }
+
+    }else{
+            Toast.makeText(this, "Dieses Gerät ist nicht in deiner Firma vorhanden", Toast.LENGTH_SHORT).show();
         }
 
     }

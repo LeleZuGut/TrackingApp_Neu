@@ -10,6 +10,7 @@ public class Object implements Serializable
     String status;
     String userChanged;
     String repairmessage;
+    int firmId;
 
     public Object(int id, String name, String inventoryNumber, String status) {
         this.id = id;
@@ -70,6 +71,14 @@ public class Object implements Serializable
 
     public void setRepairmessage(String repairmessage) {
         this.repairmessage = repairmessage;
+    }
+
+    public int getFirmId() {
+        return firmId;
+    }
+
+    public void setFirmId(int firmId) {
+        this.firmId = firmId;
     }
 
     @Override

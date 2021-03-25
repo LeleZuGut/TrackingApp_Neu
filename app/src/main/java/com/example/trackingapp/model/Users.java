@@ -6,6 +6,7 @@ public class Users implements Serializable {
     String benutzer;
     String mail;
     String password;
+    int firmenID;
 
     public Users() {
     }
@@ -14,6 +15,13 @@ public class Users implements Serializable {
         this.benutzer = benutzer;
         this.mail = mail;
         this.password = password;
+    }
+
+    public Users(String benutzer, String mail, String password, int firmenID) {
+        this.benutzer = benutzer;
+        this.mail = mail;
+        this.password = password;
+        this.firmenID = firmenID;
     }
 
     public String getBenutzer() {
@@ -38,5 +46,13 @@ public class Users implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getFirmenID() {
+        return firmenID;
+    }
+
+    public void setFirmenID(int firmenID) {
+        this.firmenID = firmenID;
     }
 }
